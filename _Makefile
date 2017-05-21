@@ -1,0 +1,29 @@
+CFLAGS = `pkg-config --cflags sdl2 SDL2_ttf` --std=c99 -O3
+#-I/usr/local/include/cutils
+LIBS = `pkg-config --libs sdl2 SDL2_ttf`
+#-lcutils
+OBJ = main.o utils.o program.o snake.o bonus.o
+TARGET = main
+
+$(TARGET): $(OBJ)
+	cc $(OBJ) -o $(TARGET) $(CFLAGS) $(LIBS)
+
+main.o: main.c world.h
+	cc -o main.o -c main.c $(CFLAGS) $(LIBS)
+
+utils.o: utils.h utils.c
+	cc -o utils.o -c utils.c $(CFLAGS) $(LIBS)
+
+program.o: world.h program.h program*.c
+	cc -o program.o -c program.c $(CFLAGS) $(LIBS)
+
+snake.o: world.h snake.h snake.c
+	cc -o snake.o -c snake.c $(CFLAGS) $(LIBS)
+
+bonus.o: world.h bonus.h bonus.c
+	cc -o bonus.o -c bonus.c $(CFLAGS) $(LIBS)
+
+.PHONY: clean
+
+clean:
+	rm main *.o
